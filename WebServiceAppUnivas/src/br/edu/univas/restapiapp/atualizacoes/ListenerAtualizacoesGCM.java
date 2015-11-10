@@ -27,37 +27,14 @@ public class ListenerAtualizacoesGCM implements ServletContextListener {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				Date agora = new Date();
-
-				System.out.println("=========================================");
-				System.out.println("=========================================");
 				System.out.println("Este rotina roda a cada 6 segundos..."
 						+ sdf.format(agora));
-				System.out.println("=========================================");
-				System.out.println("=========================================");
 				try {
 					Atualizacoes at = new Atualizacoes();
-					List<Usuario> usuarios = at.buscaAtualizaoEventos();
-					if (usuarios.size() > 0) {
-						@SuppressWarnings("unused")
-						EnviarMensagemGCM gcm = new EnviarMensagemGCM(usuarios);
-						System.out
-								.println("=========================================");
-						System.out
-								.println("=========================================");
-						System.out.println("Simulado com sucesso  ao GCM!");
-						System.out
-								.println("=========================================");
-						System.out
-								.println("=========================================");
-					} else {
-						System.out.println("Nada a enviar ao GCM!");
-					}
-
-					at.updateTimeStampUltimaAtualização(agora);
+					at.start();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				System.out.println("=========================================");
 				System.out.println("=========================================");
 				System.out.println("\n\n");
 			}

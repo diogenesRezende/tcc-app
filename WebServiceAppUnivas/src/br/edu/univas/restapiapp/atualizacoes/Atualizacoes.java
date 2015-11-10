@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import br.edu.univas.restapiapp.gcm.EnviarMensagemGCM;
 import br.edu.univas.restapiapp.model.Atualizacao;
 import br.edu.univas.restapiapp.model.Usuario;
 import br.edu.univas.restapiapp.util.JpaUtil;
@@ -16,12 +17,20 @@ public class Atualizacoes {
 
 	}
 
+	public void start() {
+
+		List<Usuario> usuarios = this.buscaAtualizaoEventos();
+		if (usuarios.size() > 0) {
+			@SuppressWarnings("unused")
+			EnviarMensagemGCM gcm = new EnviarMensagemGCM(usuarios);
+			System.out.println("Simulado com sucesso  ao GCM!");
+		} else {
+			System.out.println("Nada a enviar ao GCM!");
+		}
+	}
+
 	public List<Usuario> buscaAtualizaoEventos() {
-		System.out.println("=========================================");
-		System.out.println("=========================================");
 		System.out.println("rodando buscaAtualizaoEventos()");
-		System.out.println("=========================================");
-		System.out.println("=========================================");
 		/* Faz a busca da ultima atualização */
 		Date ultimaAtualizacao = this.buscaUltimaVarredura();
 
@@ -43,11 +52,7 @@ public class Atualizacoes {
 	}
 
 	private Date buscaUltimaVarredura() {
-		System.out.println("=========================================");
-		System.out.println("=========================================");
 		System.out.println("rodando buscaUltimaVarredura()");
-		System.out.println("=========================================");
-		System.out.println("=========================================");
 		EntityManager em = JpaUtil.getEntityManager();
 		try {
 			String jpql = "from Atualizacao a order by a.data desc";
@@ -70,10 +75,7 @@ public class Atualizacoes {
 		em.getTransaction().begin();
 		em.persist(at);
 		em.getTransaction().commit();
-		System.out.println("=========================================");
-		System.out.println("=========================================");
 		System.out.println("Atualizando ultima atualização para -" + agora);
-		System.out.println("=========================================");
-		System.out.println("=========================================");
+		em.close();
 	}
 }
