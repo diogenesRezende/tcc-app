@@ -27,6 +27,7 @@ public class Atualizacoes {
 		} else {
 			System.out.println("Nada a enviar ao GCM!");
 		}
+		this.updateTimeStampUltimaAtualização(new Date());
 	}
 
 	public List<Usuario> buscaAtualizaoEventos() {

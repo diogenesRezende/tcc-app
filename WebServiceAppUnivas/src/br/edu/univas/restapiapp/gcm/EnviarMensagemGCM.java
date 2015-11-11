@@ -1,7 +1,10 @@
 package br.edu.univas.restapiapp.gcm;
 
+import java.util.Date;
 import java.util.List;
 
+import br.edu.univas.restapiapp.model.Evento;
+import br.edu.univas.restapiapp.model.TipoEvento;
 import br.edu.univas.restapiapp.model.Usuario;
 
 /**
@@ -41,7 +44,17 @@ public class EnviarMensagemGCM {
 		if (c.getRegistration_ids().size() == 0) {
 			return null;
 		} else {
-			c.createData("Univas APP", "Novas informações!");
+			Evento ev = new Evento();
+
+			ev.setIdEvento(1L);
+			ev.setDataEfetiva(new Date());
+			ev.setDataLancamento(new Date());
+			ev.setDescricao("nada");
+			ev.setNota(30);
+			ev.setTipoEvento(TipoEvento.PROVA_APLICADA);
+			ev.setValor(27);
+
+			c.createData("Univas APP", ev);
 			// c.addRegId("APA91bFQnhOkVyLbkbuqJJ4R7F6AvzT_YgzyG_54WiGoSRXaF05iBHq3pvbhfOpu4lUxRbDVfzYTRR5YEV2BIAT6uX_HYNUCbN1lltBWYCPQjiKb2UkLVlYIytKn2XGCG9k6oRJGIS8x");
 			// c.addRegId("APA91bG1xfKvvn7RtfQrQmfKj4mf-Wtw25dTvzeZqmd0MPMqZzXXDu1uIezP_-wqz6VkAjEQo8odr3mQHUjnU_HGaDIBwphEhs6xPHEqHexDPHqYTMXQYn07LsDtoNpKKy_Y0153vy4x");
 			return c;
