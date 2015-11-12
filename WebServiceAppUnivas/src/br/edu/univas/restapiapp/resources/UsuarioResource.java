@@ -21,12 +21,20 @@ public class UsuarioResource {
 	@Path("/usuario")
 	public void receiveGoogleId(Usuario user) {
 		EntityManager em = JpaUtil.getEntityManager();
+<<<<<<< HEAD
+		System.err.println("*********************************");
+		System.err.println("************|| "+user.getUsername()+" ||************");
+		System.err.println("*********************************");
+		System.err.println("************|| "+user.getIdGCM()+" ||************");
+		System.err.println("*********************************");
+=======
 		
 		System.err.println("****************************************************");
 		System.err.println("********************|| Chegou ||********************");
 		System.err.println("**********************"+user.getUsername()+"**********************");
 		System.err.println("****************************************************");
 
+>>>>>>> 4920f843aa984bbda27b539d57cc2606f39d3965
 		try {
 
 			String jpql = "select u from Usuario u where u.username=:id";
@@ -49,11 +57,6 @@ public class UsuarioResource {
 		} finally {
 			em.close();
 		}
-
-		// System.out.println("nadadadadadda" + user.getIdGCM());
-		// System.out.println("nadadadadadda" + user.getPassword());
-		// System.out.println("nadadadadadda" + user.getUsername());
-		// System.out.println("nadadadadadda" + user.getIdUsuario());
 		throw new WebApplicationException(Status.CREATED);
 
 	}
