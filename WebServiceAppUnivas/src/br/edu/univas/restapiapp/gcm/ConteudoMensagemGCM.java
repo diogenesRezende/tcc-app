@@ -6,13 +6,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import br.edu.univas.restapiapp.model.Evento;
+import br.edu.univas.restapiapp.entities.AlunoEvento;
+import br.edu.univas.restapiapp.entities.EventsGCM;
 
 public class ConteudoMensagemGCM implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private List<String> registration_ids;
-	private Map<String, Evento> data;
+	private Map<String, EventsGCM> data;
 
 	public void addRegId(String regId) {
 		if (registration_ids == null)
@@ -20,9 +21,9 @@ public class ConteudoMensagemGCM implements Serializable {
 		registration_ids.add(regId);
 	}
 
-	public void createData(String title, Evento evento) {
+	public void createData(String title, EventsGCM evento) {
 		if (data == null)
-			data = new HashMap<String, Evento>();
+			data = new HashMap<String, EventsGCM>();
 
 		data.put("evento", evento);
 
@@ -36,11 +37,11 @@ public class ConteudoMensagemGCM implements Serializable {
 		this.registration_ids = registration_ids;
 	}
 
-	public Map<String, Evento> getData() {
+	public Map<String, EventsGCM> getData() {
 		return data;
 	}
 
-	public void setData(Map<String, Evento> data) {
+	public void setData(Map<String, EventsGCM> data) {
 		this.data = data;
 	}
 

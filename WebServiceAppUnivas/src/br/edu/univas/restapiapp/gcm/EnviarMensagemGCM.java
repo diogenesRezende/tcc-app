@@ -3,7 +3,7 @@ package br.edu.univas.restapiapp.gcm;
 import java.util.Date;
 import java.util.List;
 
-import br.edu.univas.restapiapp.model.Evento;
+import br.edu.univas.restapiapp.entities.EventsGCM;
 import br.edu.univas.restapiapp.model.TipoEvento;
 import br.edu.univas.restapiapp.model.Usuario;
 
@@ -20,7 +20,7 @@ public class EnviarMensagemGCM {
 		ConteudoMensagemGCM content = createContent(usuarios);
 
 		if (!content.equals(null)) {
-//			POST2GCM.post(apiKey, content);
+			POST2GCM.post(apiKey, content);
 		} else {
 			System.out.println("Nenhum usuario registrado!");
 		}
@@ -44,19 +44,20 @@ public class EnviarMensagemGCM {
 		if (c.getRegistration_ids().size() == 0) {
 			return null;
 		} else {
-			Evento ev = new Evento();
+			EventsGCM ev = new EventsGCM();
 
-			ev.setIdEvento(1L);
-			ev.setDataEfetiva(new Date());
-			ev.setDataLancamento(new Date());
-			ev.setDescricao("nada");
+			ev.setValor(27);
 			ev.setNota(30);
 			ev.setTipoEvento(TipoEvento.PROVA_APLICADA);
-			ev.setValor(27);
+			ev.setId_evento(1L);
+			ev.setData(new Date());
+			ev.setId_disciplina(1L);
+			ev.setDescricao("nada");
+			ev.setId_externo_disciplina(1L);
 
 			c.createData("Univas APP", ev);
 			// c.addRegId("APA91bFQnhOkVyLbkbuqJJ4R7F6AvzT_YgzyG_54WiGoSRXaF05iBHq3pvbhfOpu4lUxRbDVfzYTRR5YEV2BIAT6uX_HYNUCbN1lltBWYCPQjiKb2UkLVlYIytKn2XGCG9k6oRJGIS8x");
-			// c.addRegId("APA91bG1xfKvvn7RtfQrQmfKj4mf-Wtw25dTvzeZqmd0MPMqZzXXDu1uIezP_-wqz6VkAjEQo8odr3mQHUjnU_HGaDIBwphEhs6xPHEqHexDPHqYTMXQYn07LsDtoNpKKy_Y0153vy4x");
+			c.addRegId("APA91bG1xfKvvn7RtfQrQmfKj4mf-Wtw25dTvzeZqmd0MPMqZzXXDu1uIezP_-wqz6VkAjEQo8odr3mQHUjnU_HGaDIBwphEhs6xPHEqHexDPHqYTMXQYn07LsDtoNpKKy_Y0153vy4x");
 			return c;
 		}
 	}
