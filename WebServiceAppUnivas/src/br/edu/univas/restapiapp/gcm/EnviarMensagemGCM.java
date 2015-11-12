@@ -20,7 +20,7 @@ public class EnviarMensagemGCM {
 		ConteudoMensagemGCM content = createContent(usuarios);
 
 		if (!content.equals(null)) {
-			POST2GCM.post(apiKey, content);
+//			POST2GCM.post(apiKey, content);
 		} else {
 			System.out.println("Nenhum usuario registrado!");
 		}
