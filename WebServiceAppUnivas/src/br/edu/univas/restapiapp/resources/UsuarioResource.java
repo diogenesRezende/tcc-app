@@ -3,7 +3,7 @@ package br.edu.univas.restapiapp.resources;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -17,11 +17,15 @@ import br.edu.univas.restapiapp.util.JpaUtil;
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 public class UsuarioResource {
-	@PUT
+	@POST
 	@Path("/usuario")
 	public void receiveGoogleId(Usuario user) {
 		EntityManager em = JpaUtil.getEntityManager();
-
+		System.err.println("*********************************");
+		System.err.println("************|| "+user.getUsername()+" ||************");
+		System.err.println("*********************************");
+		System.err.println("************|| "+user.getIdGCM()+" ||************");
+		System.err.println("*********************************");
 		try {
 
 			String jpql = "select u from Usuario u where u.username=:id";
@@ -44,11 +48,6 @@ public class UsuarioResource {
 		} finally {
 			em.close();
 		}
-
-		// System.out.println("nadadadadadda" + user.getIdGCM());
-		// System.out.println("nadadadadadda" + user.getPassword());
-		// System.out.println("nadadadadadda" + user.getUsername());
-		// System.out.println("nadadadadadda" + user.getIdUsuario());
 		throw new WebApplicationException(Status.CREATED);
 
 	}
