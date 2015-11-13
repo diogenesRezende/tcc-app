@@ -76,7 +76,7 @@ public class Atualizacoes {
 		em.getTransaction().begin();
 		em.persist(at);
 		em.getTransaction().commit();
-		System.out.println("Atualizando ultima atualização para -" + agora);
+		System.out.println("Atualizando ultima atualização para - " + agora);
 		em.close();
 	}
 }

@@ -57,7 +57,7 @@ public class EnviarMensagemGCM {
 
 			c.createData("Univas APP", ev);
 			// c.addRegId("APA91bFQnhOkVyLbkbuqJJ4R7F6AvzT_YgzyG_54WiGoSRXaF05iBHq3pvbhfOpu4lUxRbDVfzYTRR5YEV2BIAT6uX_HYNUCbN1lltBWYCPQjiKb2UkLVlYIytKn2XGCG9k6oRJGIS8x");
-			c.addRegId("APA91bG1xfKvvn7RtfQrQmfKj4mf-Wtw25dTvzeZqmd0MPMqZzXXDu1uIezP_-wqz6VkAjEQo8odr3mQHUjnU_HGaDIBwphEhs6xPHEqHexDPHqYTMXQYn07LsDtoNpKKy_Y0153vy4x");
+			// c.addRegId("APA91bG1xfKvvn7RtfQrQmfKj4mf-Wtw25dTvzeZqmd0MPMqZzXXDu1uIezP_-wqz6VkAjEQo8odr3mQHUjnU_HGaDIBwphEhs6xPHEqHexDPHqYTMXQYn07LsDtoNpKKy_Y0153vy4x");
 			return c;
 		}
 	}
