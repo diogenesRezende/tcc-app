@@ -1,11 +1,9 @@
 package br.edu.univas.restapiapp.gcm;
 
-import java.util.Date;
 import java.util.List;
 
 import br.edu.univas.restapiapp.entities.EventsGCM;
-import br.edu.univas.restapiapp.model.TipoEvento;
-import br.edu.univas.restapiapp.model.Usuario;
+import br.edu.univas.restapiapp.entities.EventsUserGCM;
 
 /**
  * Hello world!
@@ -13,52 +11,67 @@ import br.edu.univas.restapiapp.model.Usuario;
  */
 
 public class EnviarMensagemGCM {
-	public EnviarMensagemGCM(List<Usuario> usuarios) {
+
+	private static String API_KEY_GCM = "AIzaSyC58w1R-0DzfpTzZx3e4WUKSXwE_VoDvqU";
+
+	public void sendMessageGCM(List<EventsUserGCM> eventsGCM) {
+
 		System.out.println("Enviando para o GCM!");
 
-		String apiKey = "AIzaSyC58w1R-0DzfpTzZx3e4WUKSXwE_VoDvqU";
-		ConteudoMensagemGCM content = createContent(usuarios);
+		for (EventsUserGCM eventGCM : eventsGCM) {
 
-		if (!content.equals(null)) {
-			POST2GCM.post(apiKey, content);
-		} else {
-			System.out.println("Nenhum usuario registrado!");
+			// new Thread() {
+
+			// public void run() {
+			ContentMenssageGCM content = createContent(eventGCM);
+
+			if (!content.equals(null)) {
+				POST2GCM.post(API_KEY_GCM, content);
+			} else {
+				System.out.println("Nenhum usuario registrado!");
+			}
+			// }
+
+			// }.start();
+
 		}
 	}
 
-	private ConteudoMensagemGCM createContent(List<Usuario> usuarios) {
+	private ContentMenssageGCM createContent(EventsUserGCM eventGCM) {
 
-		ConteudoMensagemGCM c = new ConteudoMensagemGCM();
+		ContentMenssageGCM c = new ContentMenssageGCM();
 
-		for (Usuario usuario : usuarios) {
-			if (usuario.getIdGCM() == null) {
-				System.out.println("Usuario -" + usuario.getUsername()
-						+ " não possui id do gcm cadastrado");
-			} else {
-				c.addRegId(usuario.getIdGCM());
-				System.out.println("Usuario - " + usuario.getUsername()
-						+ " adicionada ao lote de envio!");
-			}
+		// for (Usuario usuario : usuarios) {
+		// if (usuario.getIdGCM() == null) {
+		// System.out.println("Usuario -" + usuario.getUsername()
+		// + " não possui id do gcm cadastrado");
+		// } else {
+		// c.addRegId(usuario.getIdGCM());
+		// System.out.println("Usuario - " + usuario.getUsername()
+		// + " adicionada ao lote de envio!");
+		// }
+		//
+		// }
+		// if (c.getRegistration_ids().size() == 0) {
+		// return null;
+		// } else {
+		EventsGCM ev = new EventsGCM();
 
-		}
-		if (c.getRegistration_ids().size() == 0) {
-			return null;
-		} else {
-			EventsGCM ev = new EventsGCM();
+		ev.setValor(eventGCM.getValor());
+		ev.setNota(eventGCM.getNota());
+		ev.setTipoEvento(eventGCM.getTipoEvento());
+		ev.setId_evento(eventGCM.getId_evento());
+		ev.setData(eventGCM.getData());
+		ev.setId_disciplina(eventGCM.getId_disciplina());
+		ev.setDescricao(eventGCM.getDescricao());
+		ev.setId_externo_disciplina(eventGCM.getId_externo_disciplina());
 
-			ev.setValor(27);
-			ev.setNota(30);
-			ev.setTipoEvento(TipoEvento.PROVA_APLICADA);
-			ev.setId_evento(1L);
-			ev.setData(new Date());
-			ev.setId_disciplina(1L);
-			ev.setDescricao("nada");
-			ev.setId_externo_disciplina(1L);
-
-			c.createData("Univas APP", ev);
-			// c.addRegId("APA91bFQnhOkVyLbkbuqJJ4R7F6AvzT_YgzyG_54WiGoSRXaF05iBHq3pvbhfOpu4lUxRbDVfzYTRR5YEV2BIAT6uX_HYNUCbN1lltBWYCPQjiKb2UkLVlYIytKn2XGCG9k6oRJGIS8x");
-			// c.addRegId("APA91bG1xfKvvn7RtfQrQmfKj4mf-Wtw25dTvzeZqmd0MPMqZzXXDu1uIezP_-wqz6VkAjEQo8odr3mQHUjnU_HGaDIBwphEhs6xPHEqHexDPHqYTMXQYn07LsDtoNpKKy_Y0153vy4x");
-			return c;
-		}
+		c.createData("Univas APP", ev);
+		// c.addRegId("APA91bFQnhOkVyLbkbuqJJ4R7F6AvzT_YgzyG_54WiGoSRXaF05iBHq3pvbhfOpu4lUxRbDVfzYTRR5YEV2BIAT6uX_HYNUCbN1lltBWYCPQjiKb2UkLVlYIytKn2XGCG9k6oRJGIS8x");
+		// c.addRegId("APA91bG1xfKvvn7RtfQrQmfKj4mf-Wtw25dTvzeZqmd0MPMqZzXXDu1uIezP_-wqz6VkAjEQo8odr3mQHUjnU_HGaDIBwphEhs6xPHEqHexDPHqYTMXQYn07LsDtoNpKKy_Y0153vy4x");
+		System.out.println(eventGCM.getIdGCM());
+		c.addRegId(eventGCM.getIdGCM());
+		return c;
+		// }
 	}
 }

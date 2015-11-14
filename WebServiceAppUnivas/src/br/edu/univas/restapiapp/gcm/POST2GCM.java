@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class POST2GCM {
 	
-	public static void post(String apiKey, ConteudoMensagemGCM content) {
+	public static void post(String apiKey, ContentMenssageGCM content) {
 
 		/* String projectNumberOfUnivasAppGcm = "49731260058"; */
 		try {

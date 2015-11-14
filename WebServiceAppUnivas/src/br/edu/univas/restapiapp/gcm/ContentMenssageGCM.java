@@ -6,10 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import br.edu.univas.restapiapp.entities.AlunoEvento;
 import br.edu.univas.restapiapp.entities.EventsGCM;
 
-public class ConteudoMensagemGCM implements Serializable {
+public class ContentMenssageGCM implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private List<String> registration_ids;

@@ -1,14 +1,17 @@
 package br.edu.univas.restapiapp.atualizacoes;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import br.edu.univas.restapiapp.entities.EventsUserGCM;
 import br.edu.univas.restapiapp.gcm.EnviarMensagemGCM;
 import br.edu.univas.restapiapp.model.Atualizacao;
-import br.edu.univas.restapiapp.model.Usuario;
+import br.edu.univas.restapiapp.model.TipoEvento;
 import br.edu.univas.restapiapp.util.JpaUtil;
 
 public class Atualizacoes {
@@ -19,31 +22,54 @@ public class Atualizacoes {
 
 	public void start() {
 
-		List<Usuario> usuarios = this.buscaAtualizaoEventos();
-		if (usuarios.size() > 0) {
-			@SuppressWarnings("unused")
-			EnviarMensagemGCM gcm = new EnviarMensagemGCM(usuarios);
+		List<EventsUserGCM> eventsGcm = this.buscaAtualizaoEventos();
+		if (eventsGcm.size() > 0) {
+			EnviarMensagemGCM gcm = new EnviarMensagemGCM();
+			gcm.sendMessageGCM(eventsGcm);
 			System.out.println("Simulado com sucesso  ao GCM!");
 		} else {
 			System.out.println("Nada a enviar ao GCM!");
 		}
-		this.updateTimeStampUltimaAtualização(new Date());
+		this.updateLastActualization(new Date());
 	}
 
-	public List<Usuario> buscaAtualizaoEventos() {
+	public List<EventsUserGCM> buscaAtualizaoEventos() {
 		System.out.println("rodando buscaAtualizaoEventos()");
 		/* Faz a busca da ultima atualização */
-		Date ultimaAtualizacao = this.buscaUltimaVarredura();
+		Date lastActualization = this.searchLastSweep();
+		System.out.println("rodando buscaAtualizaoEventos()");
 
 		EntityManager em = JpaUtil.getEntityManager();
+		String jpql = "select distinct ";
+		jpql += " u.idGCM, e.valor, e.nota, e.tipoEvento, e.idEvento, ";
+		jpql += "e.dataEfetiva, d.idDisciplina, e.descricao,  d.idDbExterno from Disciplina d ";
+		jpql += " right outer join d.eventos e right outer join e.aluno a right outer join a.usuario u ";
+		jpql += "where e.dataLancamento >= :ultimaAtualizacao";
 
 		try {
-			String jpql = "select distinct u from Aluno a inner join a.eventos e inner join a.usuario u where e.dataLancamento >= :ultimaAtualizacao";
-			TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+			Query query = em.createQuery(jpql);
+			query.setParameter("ultimaAtualizacao", lastActualization);
 
-			query.setParameter("ultimaAtualizacao", ultimaAtualizacao);
-			List<Usuario> eventos = query.getResultList();
-			return eventos;
+			@SuppressWarnings("unchecked")
+			List<Object[]> resultSet = query.getResultList();
+			List<EventsUserGCM> userEvents = new ArrayList<EventsUserGCM>();
+
+			for (Object[] obj : resultSet) {
+				EventsUserGCM user = new EventsUserGCM();
+
+				user.setIdGCM((String) obj[0]);
+				user.setValor((int) obj[1]);
+				user.setNota((int) obj[2]);
+				user.setTipoEvento((TipoEvento) obj[3]);
+				user.setId_evento((Long) obj[4]);
+				user.setData((Date) obj[5]);
+				user.setId_disciplina((Long) obj[6]);
+				user.setDescricao((String) obj[7]);
+				user.setId_externo_disciplina((Long) obj[8]);
+				userEvents.add(user);
+			}
+			return userEvents;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();
@@ -52,7 +78,7 @@ public class Atualizacoes {
 		}
 	}
 
-	private Date buscaUltimaVarredura() {
+	private Date searchLastSweep() {
 		System.out.println("rodando buscaUltimaVarredura()");
 		EntityManager em = JpaUtil.getEntityManager();
 		try {
@@ -69,7 +95,7 @@ public class Atualizacoes {
 		}
 	}
 
-	public void updateTimeStampUltimaAtualização(Date agora) {
+	public void updateLastActualization(Date agora) {
 		EntityManager em = JpaUtil.getEntityManager();
 		Atualizacao at = em.find(Atualizacao.class, 1L);
 		at.setData(agora);
