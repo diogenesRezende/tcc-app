@@ -1,8 +1,7 @@
-package br.edu.univas.restapiapp.atualizacoes;
+package br.edu.univas.restapiappunivas.updates;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,35 +9,32 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import br.edu.univas.restapiapp.gcm.EnviarMensagemGCM;
-import br.edu.univas.restapiapp.model.Usuario;
-
-public class ListenerAtualizacoesGCM implements ServletContextListener {
+public class UpdatesGCMListener implements ServletContextListener {
 
 	public static final SimpleDateFormat sdf = new SimpleDateFormat(
 			"yyyy-MM-dd_HH:mm:ss");
 
 	public void contextInitialized(ServletContextEvent arg0) {
 		ServletContext servletContext = arg0.getServletContext();
-		System.out.println("*********ServletContextListener Iniciado*********");
+		System.out.println("*********|| ServletContextListener Started! ||*********");
 
 		int delay = 1000;
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				Date agora = new Date();
-				System.out.println("Este rotina roda a cada 6 segundos..."
+				System.out.println("Started every 6 seconds ..."
 						+ sdf.format(agora));
 				try {
-					Atualizacoes at = new Atualizacoes();
-					at.start();
+					Updates updates = new Updates();
+					updates.start();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				System.out.println("=========================================");
 				System.out.println("\n\n");
 			}
-		}, delay, 5000);
+		}, delay, 30000);
 		servletContext.setAttribute("timer", timer);
 	}
 
@@ -50,7 +46,7 @@ public class ListenerAtualizacoesGCM implements ServletContextListener {
 			timer.cancel();
 
 		servletContext.removeAttribute("timer");
-		System.out.println("ServletContextListener Finalizado");
+		System.out.println("*********|| ServletContextListener Finished! ||*********");
 
 	}
 

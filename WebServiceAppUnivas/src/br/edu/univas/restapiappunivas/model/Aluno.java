@@ -1,4 +1,4 @@
-package br.edu.univas.restapiapp.model;
+package br.edu.univas.restapiappunivas.model;
 
 import java.util.List;
 
@@ -10,43 +10,47 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 
 @Entity
-@Table(name = "disciplinas")
-public class Disciplina {
+@Table(name = "alunos")
+public class Aluno {
 
 	@Id
-	@SequenceGenerator(name = "id_disciplina", sequenceName = "seq_id_disciplina", allocationSize = 1)
-	@GeneratedValue(generator = "id_disciplina", strategy = GenerationType.IDENTITY)
-	@Column(name = "id_disciplina", nullable = false)
+	@SequenceGenerator(name = "id_aluno", sequenceName = "seq_id_aluno", allocationSize = 1)
+	@GeneratedValue(generator = "id_aluno", strategy = GenerationType.IDENTITY)
+	@Column(name = "id_aluno", nullable = false)
 	@XmlElement(name = "id")
-	private Long idDisciplina;
+	private Long idAluno;
 
 	@Column(name = "id_externo", nullable = false)
-	@XmlElement
+	@XmlElement(name = "id_externo")
 	private Long idDbExterno;
 
 	@Column(length = 100, nullable = false)
-	@XmlElement
+	@XmlElement(name="nome")
 	private String nome;
 
-	@Column(length = 100)
-	@XmlElement
-	private String descricao;
+	@Column(length = 100, nullable = false)
+	@XmlElement(name="email")
+	private String email;
 
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_discplina")
+	@OneToMany(mappedBy="aluno", fetch = FetchType.EAGER)
 	private List<Evento> eventos;
 
-	public Long getIdDisciplina() {
-		return idDisciplina;
+	@OneToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
+
+	public Long getIdAluno() {
+		return idAluno;
 	}
 
-	public void setIdDisciplina(Long idDisciplina) {
-		this.idDisciplina = idDisciplina;
+	public void setIdAluno(Long idAluno) {
+		this.idAluno = idAluno;
 	}
 
 	public Long getIdDbExterno() {
@@ -65,12 +69,12 @@ public class Disciplina {
 		this.nome = nome;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public List<Evento> getEventos() {
@@ -85,8 +89,7 @@ public class Disciplina {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((idDisciplina == null) ? 0 : idDisciplina.hashCode());
+		result = prime * result + ((idAluno == null) ? 0 : idAluno.hashCode());
 		return result;
 	}
 
@@ -98,11 +101,11 @@ public class Disciplina {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Disciplina other = (Disciplina) obj;
-		if (idDisciplina == null) {
-			if (other.idDisciplina != null)
+		Aluno other = (Aluno) obj;
+		if (idAluno == null) {
+			if (other.idAluno != null)
 				return false;
-		} else if (!idDisciplina.equals(other.idDisciplina))
+		} else if (!idAluno.equals(other.idAluno))
 			return false;
 		return true;
 	}

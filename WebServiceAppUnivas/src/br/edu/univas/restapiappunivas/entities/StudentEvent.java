@@ -1,12 +1,12 @@
-package br.edu.univas.restapiapp.entities;
+package br.edu.univas.restapiappunivas.entities;
 
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import br.edu.univas.restapiapp.model.TipoEvento;
+import br.edu.univas.restapiappunivas.model.TipoEvento;
 
-public class AlunoEvento {
+public class StudentEvent {
 
 	@XmlElement(name = "id_evento")
 	private Long idEvento;

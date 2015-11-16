@@ -1,4 +1,4 @@
-package br.edu.univas.restapiapp.util;
+package br.edu.univas.restapiappunivas.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

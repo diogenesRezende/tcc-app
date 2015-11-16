@@ -1,4 +1,4 @@
-package br.edu.univas.restapiapp.controller;
+package br.edu.univas.restapiappunivas.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,35 +9,29 @@ import javax.persistence.Query;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
-import br.edu.univas.restapiapp.entities.AlunoEvento;
-import br.edu.univas.restapiapp.entities.AlunoEventos;
-import br.edu.univas.restapiapp.model.TipoEvento;
-import br.edu.univas.restapiapp.util.JpaUtil;
+import br.edu.univas.restapiappunivas.entities.StudentEvent;
+import br.edu.univas.restapiappunivas.entities.StudentEvents;
+import br.edu.univas.restapiappunivas.model.TipoEvento;
+import br.edu.univas.restapiappunivas.util.JpaUtil;
 
-public class AlunoEventosCtrl {
+public class StudentEventsCtrl {
 
 	@SuppressWarnings("unchecked")
-	public AlunoEventos getEventosByMatricula(Long idAluno) {
+	public StudentEvents getEventsByStudentRegistration(Long studentRegistration) {
 		EntityManager em = JpaUtil.getEntityManager();
 		String jpql = "select distinct e.idEvento, e.dataEfetiva, e.valor, e.nota,";
 		jpql += " e.descricao, e.tipoEvento, d.idDisciplina, d.idDbExterno from Disciplina d ";
 		jpql += " right outer join d.eventos e right outer join e.aluno a where a.idDbExterno = :id ";
 
-		/*
-		 * select e.*,d.id_externo from eventos e left outer join disciplinas d
-		 * on d.id_disciplina=e.id_discplina where e.id_aluno=(select id_aluno
-		 * from alunos where id_externo = 98004096)
-		 */
-
 		try {
 			Query query = em.createQuery(jpql);
-			query.setParameter("id", idAluno);
+			query.setParameter("id", studentRegistration);
 
 			List<Object[]> resultSet = query.getResultList();
-			List<AlunoEvento> alunoEventos = new ArrayList<AlunoEvento>();
+			List<StudentEvent> studentEvents = new ArrayList<StudentEvent>();
 
 			for (Object[] obj : resultSet) {
-				AlunoEvento ae = new AlunoEvento();
+				StudentEvent ae = new StudentEvent();
 				ae.setIdEvento((Long) obj[0]);
 				ae.setDataEfetiva((Date) obj[1]);
 				ae.setValor((int) obj[2]);
@@ -46,14 +40,12 @@ public class AlunoEventosCtrl {
 				ae.setTipoEvento((TipoEvento) obj[5]);
 				ae.setIdDisciplina((Long) obj[6]);
 				ae.setIdDbExterno((Long) obj[7]);
-				// ae.setIdAluno((Long) obj[8]);
 
-				alunoEventos.add(ae);
+				studentEvents.add(ae);
 			}
 
-			AlunoEventos alunos = new AlunoEventos();
-			alunos.setEventos(alunoEventos);
-			// alunos.setEventos(aluno);
+			StudentEvents alunos = new StudentEvents();
+			alunos.setEventos(studentEvents);
 			return alunos;
 		} catch (Exception e) {
 			e.printStackTrace();

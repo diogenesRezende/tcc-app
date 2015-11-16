@@ -1,4 +1,4 @@
-package br.edu.univas.restapiapp.atualizacoes;
+package br.edu.univas.restapiappunivas.updates;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,36 +8,36 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import br.edu.univas.restapiapp.entities.EventsUserGCM;
-import br.edu.univas.restapiapp.gcm.EnviarMensagemGCM;
-import br.edu.univas.restapiapp.model.Atualizacao;
-import br.edu.univas.restapiapp.model.TipoEvento;
-import br.edu.univas.restapiapp.util.JpaUtil;
+import br.edu.univas.restapiappunivas.entities.EventsUserGCM;
+import br.edu.univas.restapiappunivas.gcm.SendMenssageGCM;
+import br.edu.univas.restapiappunivas.model.Atualizacao;
+import br.edu.univas.restapiappunivas.model.TipoEvento;
+import br.edu.univas.restapiappunivas.util.JpaUtil;
 
-public class Atualizacoes {
 
-	public Atualizacoes() {
+
+public class Updates {
+
+	public Updates() {
 
 	}
 
 	public void start() {
 
-		List<EventsUserGCM> eventsGcm = this.buscaAtualizaoEventos();
+		List<EventsUserGCM> eventsGcm = this.updatesEvents();
 		if (eventsGcm.size() > 0) {
-			EnviarMensagemGCM gcm = new EnviarMensagemGCM();
+			SendMenssageGCM gcm = new SendMenssageGCM();
 			gcm.sendMessageGCM(eventsGcm);
-			System.out.println("Simulado com sucesso  ao GCM!");
+			System.out.println("Successfully sent to the GCM!");
 		} else {
-			System.out.println("Nada a enviar ao GCM!");
+			System.out.println("Nothing to send to GCM!");
 		}
-		this.updateLastActualization(new Date());
+		this.lastUpdate(new Date());
 	}
 
-	public List<EventsUserGCM> buscaAtualizaoEventos() {
-		System.out.println("rodando buscaAtualizaoEventos()");
-		/* Faz a busca da ultima atualização */
-		Date lastActualization = this.searchLastSweep();
-		System.out.println("rodando buscaAtualizaoEventos()");
+	public List<EventsUserGCM> updatesEvents() {
+
+		Date lastUpdate = this.searchLastSweep();
 
 		EntityManager em = JpaUtil.getEntityManager();
 		String jpql = "select distinct ";
@@ -48,7 +48,7 @@ public class Atualizacoes {
 
 		try {
 			Query query = em.createQuery(jpql);
-			query.setParameter("ultimaAtualizacao", lastActualization);
+			query.setParameter("ultimaAtualizacao", lastUpdate);
 
 			@SuppressWarnings("unchecked")
 			List<Object[]> resultSet = query.getResultList();
@@ -95,14 +95,14 @@ public class Atualizacoes {
 		}
 	}
 
-	public void updateLastActualization(Date agora) {
+	public void lastUpdate(Date now) {
 		EntityManager em = JpaUtil.getEntityManager();
-		Atualizacao at = em.find(Atualizacao.class, 1L);
-		at.setData(agora);
+		Atualizacao update = em.find(Atualizacao.class, 1L);
+		update.setData(now);
 		em.getTransaction().begin();
-		em.persist(at);
+		em.persist(update);
 		em.getTransaction().commit();
-		System.out.println("Atualizando ultima atualização para - " + agora);
+		System.out.println("Atualizando ultima atualização para - " + now);
 		em.close();
 	}
 }

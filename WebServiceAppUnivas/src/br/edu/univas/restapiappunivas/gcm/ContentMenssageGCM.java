@@ -1,4 +1,4 @@
-package br.edu.univas.restapiapp.gcm;
+package br.edu.univas.restapiappunivas.gcm;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import br.edu.univas.restapiapp.entities.EventsGCM;
+import br.edu.univas.restapiappunivas.entities.EventsGCM;
 
 public class ContentMenssageGCM implements Serializable {
 
@@ -20,11 +20,11 @@ public class ContentMenssageGCM implements Serializable {
 		registration_ids.add(regId);
 	}
 
-	public void createData(String title, EventsGCM evento) {
+	public void createData(EventsGCM event) {
 		if (data == null)
 			data = new HashMap<String, EventsGCM>();
 
-		data.put("evento", evento);
+		data.put("evento", event);
 
 	}
 
@@ -44,5 +44,4 @@ public class ContentMenssageGCM implements Serializable {
 		this.data = data;
 	}
 
-	
 }

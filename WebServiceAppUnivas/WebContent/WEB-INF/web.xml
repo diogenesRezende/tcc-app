@@ -11,7 +11,7 @@
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>br.edu.univas.restapiapp.resources</param-value>
+			<param-value>br.edu.univas.restapiappunivas.resources</param-value>
 		</init-param>
 		<init-param>
 			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
@@ -28,6 +28,6 @@
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 	<listener>
-		<listener-class>br.edu.univas.restapiapp.atualizacoes.ListenerAtualizacoesGCM</listener-class>
+		<listener-class>br.edu.univas.restapiappunivas.updates.UpdatesGCMListener</listener-class>
 	</listener>
 </web-app>

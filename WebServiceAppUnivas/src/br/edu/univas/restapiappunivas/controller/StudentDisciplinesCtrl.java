@@ -1,4 +1,4 @@
-package br.edu.univas.restapiapp.controller;
+package br.edu.univas.restapiappunivas.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,13 +8,14 @@ import javax.persistence.Query;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
-import br.edu.univas.restapiapp.entities.AlunoDisciplinas;
-import br.edu.univas.restapiapp.model.Disciplina;
-import br.edu.univas.restapiapp.util.JpaUtil;
+import br.edu.univas.restapiappunivas.entities.StudentDisciplines;
+import br.edu.univas.restapiappunivas.model.Disciplina;
+import br.edu.univas.restapiappunivas.util.JpaUtil;
 
-public class AlunoDisciplinasCtrl {
-	
-	public AlunoDisciplinas getDisciplinaByMtricula(Long idAluno) {
+public class StudentDisciplinesCtrl {
+
+	public StudentDisciplines getDisciplinesByStudentRegistration(
+			Long studentRegistration) {
 		EntityManager em = JpaUtil.getEntityManager();
 
 		String jpql = "select distinct d.idDisciplina, d.idDbExterno, d.nome from Periodo p ";
@@ -22,25 +23,24 @@ public class AlunoDisciplinasCtrl {
 
 		try {
 			Query query = em.createQuery(jpql);
-			query.setParameter("id", idAluno);
+			query.setParameter("id", studentRegistration);
 			@SuppressWarnings("unchecked")
 			List<Object[]> resultSet = query.getResultList();
-			List<Disciplina> disciplinas = new ArrayList<Disciplina>();
+			List<Disciplina> disciplines = new ArrayList<Disciplina>();
 			for (Object[] obj : resultSet) {
 				Disciplina d = new Disciplina();
 				d.setIdDisciplina((Long) obj[0]);
 				d.setIdDbExterno((Long) obj[1]);
 				d.setNome((String) obj[2]);
-				disciplinas.add(d);
+				disciplines.add(d);
 			}
-			AlunoDisciplinas alunoDisciplinas = new AlunoDisciplinas();
-			alunoDisciplinas.setDisciplinas(disciplinas);
-			return alunoDisciplinas;
+			StudentDisciplines studentDisciplines = new StudentDisciplines();
+			studentDisciplines.setDisciplinas(disciplines);
+			return studentDisciplines;
 		} catch (Exception e) {
 			throw new WebApplicationException(Status.NOT_FOUND);
 		} finally {
 			em.close();
 		}
-
 	}
 }

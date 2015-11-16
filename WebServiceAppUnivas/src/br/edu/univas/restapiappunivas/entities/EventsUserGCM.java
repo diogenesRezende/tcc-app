@@ -1,8 +1,8 @@
-package br.edu.univas.restapiapp.entities;
+package br.edu.univas.restapiappunivas.entities;
 
 import java.util.Date;
 
-import br.edu.univas.restapiapp.model.TipoEvento;
+import br.edu.univas.restapiappunivas.model.TipoEvento;
 
 public class EventsUserGCM {
 
