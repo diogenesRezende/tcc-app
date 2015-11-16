@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response.Status;
 
 import br.edu.univas.restapiappunivas.entities.StudentEvent;
 import br.edu.univas.restapiappunivas.entities.StudentEvents;
-import br.edu.univas.restapiappunivas.model.TipoEvento;
+import br.edu.univas.restapiappunivas.model.EventType;
 import br.edu.univas.restapiappunivas.util.JpaUtil;
 
 public class StudentEventsCtrl {
@@ -19,13 +19,13 @@ public class StudentEventsCtrl {
 	@SuppressWarnings("unchecked")
 	public StudentEvents getEventsByStudentRegistration(Long studentRegistration) {
 		EntityManager em = JpaUtil.getEntityManager();
-		String jpql = "select distinct e.idEvento, e.dataEfetiva, e.valor, e.nota,";
-		jpql += " e.descricao, e.tipoEvento, d.idDisciplina, d.idDbExterno from Disciplina d ";
-		jpql += " right outer join d.eventos e right outer join e.aluno a where a.idDbExterno = :id ";
+		String jpql = "select distinct e.idEvent, e.effectiveDate, e.value, e.note,";
+		jpql += " e.description, e.eventType, d.idDiscipline, d.idExternal from Discipline d ";
+		jpql += " right outer join d.events e right outer join e.student a where a.registration = :registration ";
 
 		try {
 			Query query = em.createQuery(jpql);
-			query.setParameter("id", studentRegistration);
+			query.setParameter("registration", studentRegistration);
 
 			List<Object[]> resultSet = query.getResultList();
 			List<StudentEvent> studentEvents = new ArrayList<StudentEvent>();
@@ -37,16 +37,16 @@ public class StudentEventsCtrl {
 				ae.setValor((int) obj[2]);
 				ae.setNota((int) obj[3]);
 				ae.setDescricao((String) obj[4]);
-				ae.setTipoEvento((TipoEvento) obj[5]);
+				ae.setTipoEvento((EventType) obj[5]);
 				ae.setIdDisciplina((Long) obj[6]);
 				ae.setIdDbExterno((Long) obj[7]);
 
 				studentEvents.add(ae);
 			}
 
-			StudentEvents alunos = new StudentEvents();
-			alunos.setEventos(studentEvents);
-			return alunos;
+			StudentEvents students = new StudentEvents();
+			students.setEventos(studentEvents);
+			return students;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new WebApplicationException(Status.NOT_FOUND);

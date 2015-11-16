@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
 import br.edu.univas.restapiappunivas.controller.UserCtrl;
-import br.edu.univas.restapiappunivas.model.Usuario;
+import br.edu.univas.restapiappunivas.model.User;
 
 @Path("/users")
 @Produces({ MediaType.APPLICATION_JSON })
@@ -17,7 +17,7 @@ import br.edu.univas.restapiappunivas.model.Usuario;
 public class UserResource {
 	@POST
 	@Path("/user")
-	public Status receiveGoogleId(Usuario user) {
+	public Status receiveGoogleId(User user) {
 		System.err.println("||************|| " + user.getUsername());
 		System.err.println("||************|| " + user.getIdGCM());
 		UserCtrl ctrl = new UserCtrl();

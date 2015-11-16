@@ -2,7 +2,7 @@ package br.edu.univas.restapiappunivas.entities;
 
 import java.util.Date;
 
-import br.edu.univas.restapiappunivas.model.TipoEvento;
+import br.edu.univas.restapiappunivas.model.EventType;
 
 public class EventsUserGCM {
 
@@ -12,7 +12,7 @@ public class EventsUserGCM {
 
 	private int nota;
 
-	private TipoEvento tipoEvento;
+	private EventType tipoEvento;
 
 	private Long id_evento;
 
@@ -48,11 +48,11 @@ public class EventsUserGCM {
 		this.nota = nota;
 	}
 
-	public TipoEvento getTipoEvento() {
+	public EventType getTipoEvento() {
 		return tipoEvento;
 	}
 
-	public void setTipoEvento(TipoEvento tipoEvento) {
+	public void setTipoEvento(EventType tipoEvento) {
 		this.tipoEvento = tipoEvento;
 	}
 

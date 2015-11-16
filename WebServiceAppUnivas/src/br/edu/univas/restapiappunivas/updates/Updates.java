@@ -10,11 +10,9 @@ import javax.persistence.TypedQuery;
 
 import br.edu.univas.restapiappunivas.entities.EventsUserGCM;
 import br.edu.univas.restapiappunivas.gcm.SendMenssageGCM;
-import br.edu.univas.restapiappunivas.model.Atualizacao;
-import br.edu.univas.restapiappunivas.model.TipoEvento;
+import br.edu.univas.restapiappunivas.model.EventType;
+import br.edu.univas.restapiappunivas.model.Update;
 import br.edu.univas.restapiappunivas.util.JpaUtil;
-
-
 
 public class Updates {
 
@@ -28,9 +26,9 @@ public class Updates {
 		if (eventsGcm.size() > 0) {
 			SendMenssageGCM gcm = new SendMenssageGCM();
 			gcm.sendMessageGCM(eventsGcm);
-			System.out.println("Successfully sent to the GCM!");
+			System.out.println("====|| Successfully sent to the GCM! ||=====");
 		} else {
-			System.out.println("Nothing to send to GCM!");
+			System.out.println("=====|| Nothing to send to GCM! ||=====");
 		}
 		this.lastUpdate(new Date());
 	}
@@ -41,14 +39,14 @@ public class Updates {
 
 		EntityManager em = JpaUtil.getEntityManager();
 		String jpql = "select distinct ";
-		jpql += " u.idGCM, e.valor, e.nota, e.tipoEvento, e.idEvento, ";
-		jpql += "e.dataEfetiva, d.idDisciplina, e.descricao,  d.idDbExterno from Disciplina d ";
-		jpql += " right outer join d.eventos e right outer join e.aluno a right outer join a.usuario u ";
-		jpql += "where e.dataLancamento >= :ultimaAtualizacao";
+		jpql += " u.idGCM, e.value, e.note, e.eventType, e.idEvent, ";
+		jpql += "e.effectiveDate, d.idDiscipline, e.description,  d.idExternal from Discipline d ";
+		jpql += " right outer join d.events e right outer join e.student a right outer join a.user u ";
+		jpql += "where e.releaseDate >= :lastUpdate";
 
 		try {
 			Query query = em.createQuery(jpql);
-			query.setParameter("ultimaAtualizacao", lastUpdate);
+			query.setParameter("lastUpdate", lastUpdate);
 
 			@SuppressWarnings("unchecked")
 			List<Object[]> resultSet = query.getResultList();
@@ -60,7 +58,7 @@ public class Updates {
 				user.setIdGCM((String) obj[0]);
 				user.setValor((int) obj[1]);
 				user.setNota((int) obj[2]);
-				user.setTipoEvento((TipoEvento) obj[3]);
+				user.setTipoEvento((EventType) obj[3]);
 				user.setId_evento((Long) obj[4]);
 				user.setData((Date) obj[5]);
 				user.setId_disciplina((Long) obj[6]);
@@ -79,14 +77,13 @@ public class Updates {
 	}
 
 	private Date searchLastSweep() {
-		System.out.println("rodando buscaUltimaVarredura()");
+		System.out.println("=====|| Start search for new events ||=====");
 		EntityManager em = JpaUtil.getEntityManager();
 		try {
-			String jpql = "from Atualizacao a order by a.data desc";
-			TypedQuery<Atualizacao> query = em.createQuery(jpql,
-					Atualizacao.class);
-			Atualizacao atualizacao = query.getResultList().get(0);
-			return atualizacao.getData();
+			String jpql = "from Update a order by a.lastUpdate desc";
+			TypedQuery<Update> query = em.createQuery(jpql, Update.class);
+			Update update = query.getResultList().get(0);
+			return update.getLastUpdate();
 		} catch (Exception e) {
 
 			throw new RuntimeException();
@@ -96,13 +93,13 @@ public class Updates {
 	}
 
 	public void lastUpdate(Date now) {
+		System.out.println("Updating lastUpdate to = " + now);
 		EntityManager em = JpaUtil.getEntityManager();
-		Atualizacao update = em.find(Atualizacao.class, 1L);
-		update.setData(now);
+		Update update = em.find(Update.class, 1L);
+		update.setLastUpdate(now);
 		em.getTransaction().begin();
 		em.persist(update);
 		em.getTransaction().commit();
-		System.out.println("Atualizando ultima atualização para - " + now);
 		em.close();
 	}
 }

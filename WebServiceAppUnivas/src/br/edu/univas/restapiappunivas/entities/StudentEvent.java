@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import br.edu.univas.restapiappunivas.model.TipoEvento;
+import br.edu.univas.restapiappunivas.model.EventType;
 
 public class StudentEvent {
 
@@ -24,7 +24,7 @@ public class StudentEvent {
 	private String descricao;
 
 	@XmlElement(name = "tipo_evento")
-	private TipoEvento tipoEvento;
+	private EventType tipoEvento;
 
 	@XmlElement(name = "id_disciplina")
 	private Long idDisciplina;
@@ -83,11 +83,11 @@ public class StudentEvent {
 		this.descricao = descricao;
 	}
 
-	public TipoEvento getTipoEvento() {
+	public EventType getTipoEvento() {
 		return tipoEvento;
 	}
 
-	public void setTipoEvento(TipoEvento tipoEvento) {
+	public void setTipoEvento(EventType tipoEvento) {
 		this.tipoEvento = tipoEvento;
 	}
 

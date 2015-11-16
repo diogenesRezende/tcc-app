@@ -6,19 +6,19 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import br.edu.univas.restapiappunivas.model.Disciplina;
+import br.edu.univas.restapiappunivas.model.Discipline;
 
 @XmlRootElement
 public class StudentDisciplines {
 
 	@XmlElement
-	private List<Disciplina> disciplinas = new ArrayList<Disciplina>();
+	private List<Discipline> disciplinas = new ArrayList<Discipline>();
 
-	public List<Disciplina> getDisciplinas() {
+	public List<Discipline> getDisciplinas() {
 		return disciplinas;
 	}
 
-	public void setDisciplinas(List<Disciplina> disciplinas) {
+	public void setDisciplinas(List<Discipline> disciplinas) {
 		this.disciplinas = disciplinas;
 	}
 

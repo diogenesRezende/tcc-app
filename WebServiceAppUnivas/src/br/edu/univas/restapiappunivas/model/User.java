@@ -7,39 +7,32 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name = "usuario")
-@XmlRootElement
-public class Usuario {
+@Table(name = "users")
+public class User {
 
 	@Id
-	@SequenceGenerator(name = "id_usuario", sequenceName = "seq_id_usuario", allocationSize = 1)
-	@GeneratedValue(generator = "id_usuario", strategy = GenerationType.IDENTITY)
-	@Column(name = "id_usuario", nullable = false)
-	@XmlElement(name = "id_usuario")
-	private Long idUsuario;
+	@SequenceGenerator(name = "id_user", sequenceName = "seq_id_user", allocationSize = 1)
+	@GeneratedValue(generator = "id_user", strategy = GenerationType.IDENTITY)
+	@Column(name = "id_user", nullable = false)
+	private Long idUser;
 
 	@Column(length = 100, nullable = false)
-	@XmlElement
 	private String username;
 
 	@Column(length = 100, nullable = false)
-	@XmlElement
 	private String password;
 
-	@Column(length = 200)
-	@XmlElement
+	@Column(name="id_gcm",length = 200)
 	private String idGCM;
 
-	public Long getIdUsuario() {
-		return idUsuario;
+	public Long getIdUser() {
+		return idUser;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
 	}
 
 	public String getUsername() {
@@ -70,8 +63,7 @@ public class Usuario {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((idUsuario == null) ? 0 : idUsuario.hashCode());
+		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
 		return result;
 	}
 
@@ -83,11 +75,11 @@ public class Usuario {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
-		if (idUsuario == null) {
-			if (other.idUsuario != null)
+		User other = (User) obj;
+		if (idUser == null) {
+			if (other.idUser != null)
 				return false;
-		} else if (!idUsuario.equals(other.idUsuario))
+		} else if (!idUser.equals(other.idUser))
 			return false;
 		return true;
 	}
